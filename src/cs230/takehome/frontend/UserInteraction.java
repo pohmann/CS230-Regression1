@@ -41,9 +41,16 @@ public class UserInteraction {
 		}
 	}
 
-	// get the formatted display name (no underscores) for the
-	// current logged in user
-	private static String formatDisplayName() {
+	/**
+	 * Get the formatted display name (without underscores) for the
+	 * current logged in user.  This method should give back exactly
+	 * the User's display name, but with all underscores removed
+	 * (i.e., replaced with blank).
+	 * 
+	 * @return the current user's display name, formatted properly
+	 * for printing (with all underscores removed)
+	 */
+	public static String formatDisplayName() {
 		String formattedName = loggedInUser.getUnformattedDisplayName();
 		int nameLength = formattedName.length();
 		for (int i = 0; i < nameLength; i++) {
