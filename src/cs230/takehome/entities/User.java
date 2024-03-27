@@ -11,6 +11,7 @@ import java.util.List;
 public class User {
 	private String username;
 	private String password;
+	private String displayName;
 	private List<BoardGame> favorites;
 	private List<User> friends;
 	
@@ -19,11 +20,13 @@ public class User {
 	 * 
 	 * @param username the unique username for this user
 	 * @param password their password (for logging in)
+	 * @param displayName their desired display name not necessarily unique)
 	 */
-	public User(String username, String password) {
+	public User(String username, String password, String displayName) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.displayName = displayName;
 		this.favorites = new ArrayList<BoardGame>();
 		this.friends = new ArrayList<User>();
 	}
@@ -53,6 +56,37 @@ public class User {
 	 */
 	public String getUsername() {
 		return username;
+	}
+
+	/**
+	 * Get the user's current display name, as intended
+	 * to be rendered for printing (i.e., with special
+	 * characters removed).
+	 * 
+	 * @return the user's displayed profile name, rendered
+	 * for printing
+	 */
+	public String getDisplayName() {
+		return this.displayName.replaceAll("_", "");
+	}
+	
+	/**
+	 * Get the user's completely unformatted (i.e., as saved in the DB)
+	 * display name.
+	 * 
+	 * @return the saved display name for this user
+	 */
+	public String getUnformattedDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * Update the user's display name.
+	 * 
+	 * @param displayName the new display name
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
 	/**
