@@ -18,10 +18,12 @@ public class DatabaseController {
 	// the "database"!
 	// NOTE: You can ignore this for your work.  Just pretend there
 	//       is a real DB!
-	private static List<User> theDB = Arrays.asList(
-		new User("pohmann", "secure", "Peter"),
-		new User("juser", "user", "John_User")
-	);
+	private static List<User> theDB = new ArrayList<User>(
+			Arrays.asList(
+					new User("pohmann", "secure", "Peter"),
+					new User("juser", "user", "John_User")
+					)
+			);
 	
 	// add a user to the db
 	public static boolean addUser(User newUser) {
