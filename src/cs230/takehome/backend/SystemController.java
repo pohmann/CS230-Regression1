@@ -1,11 +1,15 @@
 package cs230.takehome.backend;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cs230.takehome.entities.User;
 
+/**
+ * The SystemController class handles all of the processing between the
+ * front-end and the database.
+ * 
+ * @author Peter Ohmann
+ */
 public class SystemController {
 	
 	// other classes should *not* instantiate this class.  It is "pure static".
@@ -35,8 +39,7 @@ public class SystemController {
 		}
 	}
 
-	// this ADMIN ONLY method returns the list of all the users (and their data)
-	// TODO: shouldn't this return a List of User objects?
+	// this method returns the list of all the users (and their saved data)
 	public static List<User> getAllUsers() {
 		return DatabaseController.getAllUsers();
 	}
@@ -45,7 +48,8 @@ public class SystemController {
 	// provided details
 	public static boolean addUser(String username, String password,
 			String displayName) {
-		return DatabaseController.addUser(username, password, displayName);
+		User theUser = new User(username, password, displayName);
+		return DatabaseController.addUser(theUser);
 	}
 	
 	// this method attempts to remove a user from the database
