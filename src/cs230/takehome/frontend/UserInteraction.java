@@ -8,35 +8,41 @@ import cs230.takehome.entities.User;
 
 public class UserInteraction {
 
-	private static User loggedInUser = null;
+	private User loggedInUser = null;
 
-	// other classes should *not* instantiate this class.  It is "pure static".
-	private UserInteraction() throws Exception {
-		throw new Exception("Attempt to instantiate a UserInteraction");
+	private SystemController theSystemController;
+
+	// Construct a UserInteraction using the basic (no parameter)
+	// SystemController as the single underlying controller object.
+	// TODO: Someday, we should refactor the single SystemController class
+	//       into multiple classes for better organization of functionalities.
+	public UserInteraction() {
+		this.theSystemController = new SystemController();
+		this.loggedInUser = null;
 	}
 
 	// attempt to login, print message, and return success or failure
-	public static boolean login(String username, String password) {
-		User result = SystemController.login(username, password);
+	public boolean login(String username, String password) {
+		User result = this.theSystemController.login(username, password);
 		if (result != null) {
 			System.out.println("Login successful!");
-			loggedInUser = result;
+			this.loggedInUser = result;
 			return true;
 		}
 		else {
 			System.out.println("Login failed!  Incorrect username or password.");
-			loggedInUser = null;
+			this.loggedInUser = null;
 			return false;
 		}
 	}
 
 	// returns true if there is a user to log out, otherwise false
-	public static boolean logout() {
-		if (loggedInUser == null) {
+	public boolean logout() {
+		if (this.loggedInUser == null) {
 			return false;
 		}
 		else {
-			loggedInUser = null;
+			this.loggedInUser = null;
 			return true;
 		}
 	}
@@ -50,8 +56,8 @@ public class UserInteraction {
 	 * @return the current user's display name, formatted properly
 	 * for printing (with all underscores removed)
 	 */
-	public static String formatDisplayName() {
-		String formattedName = loggedInUser.getUnformattedDisplayName();
+	public String formatDisplayName() {
+		String formattedName = this.loggedInUser.getUnformattedDisplayName();
 		int nameLength = formattedName.length();
 		for (int i = 0; i < nameLength; i++) {
 			if (formattedName.charAt(i) == '_')
@@ -61,27 +67,27 @@ public class UserInteraction {
 	}
 
 	// print out the profile data for the current logged in user
-	public static void viewProfile() {
-		if (loggedInUser == null) {
+	public void viewProfile() {
+		if (this.loggedInUser == null) {
 			System.out.println("ERROR: No logged in user!");
 			return;
 		}
 
 		System.out.println("Name: " + formatDisplayName());
-		System.out.println("Username: " + loggedInUser.getUsername());
+		System.out.println("Username: " + this.loggedInUser.getUsername());
 		System.out.println("Password: *****");
 		System.out.println("Friends list: (not yet implemented)");
 		System.out.println("Favorite games list: (not yet implemented)");
 	}
 
 	// get the list of all users in the system
-	public static List<User> getAllUsers() {
-		return SystemController.getAllUsers();
+	public List<User> getAllUsers() {
+		return this.theSystemController.getAllUsers();
 	}
 
 	// ask for details and then attempt to add a user to the
 	// database
-	public static boolean addUser(Scanner s) {
+	public boolean addUser(Scanner s) {
 		System.out.print("Username: ");
 		String username = s.nextLine();
 		System.out.print("Password: ");
@@ -89,42 +95,42 @@ public class UserInteraction {
 		System.out.print("Display name: ");
 		String displayName = s.nextLine();
 
-		return SystemController.addUser(username, password, displayName);
+		return this.theSystemController.addUser(username, password, displayName);
 	}
 
 	// ask for a username and then remove that user from the
 	// database
-	public static boolean removeUser(Scanner s) {
+	public boolean removeUser(Scanner s) {
 		System.out.print("Username: ");
 		String username = s.nextLine();
 
-		return SystemController.removeUser(username);
+		return this.theSystemController.removeUser(username);
 	}
 
 	// ask for a friend username to remove, and then attempt to
 	// remove that user from the current logged in user's friends
 	// list
-	public static boolean removeFriend(Scanner s) {
+	public boolean removeFriend(Scanner s) {
 		System.out.print("Friend Username: ");
 		String friendName = s.nextLine();
 
-		if (loggedInUser == null)
+		if (this.loggedInUser == null)
 			return false;
 		else
-			return SystemController.removeFriend(loggedInUser, friendName);
+			return this.theSystemController.removeFriend(this.loggedInUser, friendName);
 	}
 
 	// ask for a game name to remove, and then attempt to
 	// remove that game from the current logged in user's favorite
 	// games list
-	public static boolean removeGame(Scanner s) {
+	public boolean removeGame(Scanner s) {
 		System.out.print("Game name: ");
 		String gameName = s.nextLine();
 
-		if (loggedInUser == null)
+		if (this.loggedInUser == null)
 			return false;
 		else
-			return SystemController.removeGame(loggedInUser, gameName);
+			return this.theSystemController.removeGame(this.loggedInUser, gameName);
 	}
 
 	/**
@@ -133,8 +139,8 @@ public class UserInteraction {
 	 * 
 	 * @return the User object for the logged in user
 	 */
-	public static User getLoggedInUser() {
-		return loggedInUser;
+	public User getLoggedInUser() {
+		return this.loggedInUser;
 	}
 
 }

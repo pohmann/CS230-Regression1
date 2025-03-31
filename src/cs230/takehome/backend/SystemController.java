@@ -11,10 +11,12 @@ import cs230.takehome.entities.User;
  * @author Peter Ohmann
  */
 public class SystemController {
-	
-	// other classes should *not* instantiate this class.  It is "pure static".
-	private SystemController() throws Exception {
-		throw new Exception("Attempt to instantiate a SystemController");
+	private DatabaseController myDBController;
+
+	// Construct a SystemController using the basic (no parameter)
+	// DatabaseController as the underlying database access.
+	public SystemController() {
+		this.myDBController = new DatabaseController();
 	}
 	
 	/**
@@ -26,8 +28,8 @@ public class SystemController {
 	 * @return the matching User object if the username and password match
 	 * a database entry, or null otherwise
 	 */
-	public static User login(String username, String password) {
-		User theUser = DatabaseController.getUser(username);
+	public User login(String username, String password) {
+		User theUser = this.myDBController.getUser(username);
 		
 		if (theUser == null)
 			return null;
@@ -40,39 +42,39 @@ public class SystemController {
 	}
 
 	// this method returns the list of all the users (and their saved data)
-	public static List<User> getAllUsers() {
-		return DatabaseController.getAllUsers();
+	public List<User> getAllUsers() {
+		return this.myDBController.getAllUsers();
 	}
 	
 	// this method attempts to add a user to the database with the
 	// provided details
-	public static boolean addUser(String username, String password,
+	public boolean addUser(String username, String password,
 			String displayName) {
 		User theUser = new User(username, password, displayName);
-		return DatabaseController.addUser(theUser);
+		return this.myDBController.addUser(theUser);
 	}
 	
 	// this method attempts to remove a user from the database
 	// based on the provided username
-	public static boolean removeUser(String username) {
-		return DatabaseController.removeUser(username);
+	public boolean removeUser(String username) {
+		return this.myDBController.removeUser(username);
 	}
 
 	// this method attempts to update the user (as stored in the DB)
 	// by removing the specified friend from their list
-	public static boolean removeFriend(User theUser, String theFriend) {
+	public boolean removeFriend(User theUser, String theFriend) {
 		boolean result = theUser.removeFriend(theFriend);
 		if (result)
-			DatabaseController.updateUser(theUser);
+			this.myDBController.updateUser(theUser);
 		return result;
 	}
 	
 	// this method attempts to update the user (as stored in the DB)
 	// by removing the specified board game from their favorites list
-	public static boolean removeGame(User theUser, String theGame) {
+	public boolean removeGame(User theUser, String theGame) {
 		boolean result = theUser.removeFavorite(theGame);
 		if (result)
-			DatabaseController.updateUser(theUser);
+			this.myDBController.updateUser(theUser);
 		return result;
 	}
 

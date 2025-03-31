@@ -26,7 +26,7 @@ public class DatabaseController {
 			);
 	
 	// add a user to the db
-	public static boolean addUser(User newUser) {
+	public boolean addUser(User newUser) {
 		for (User u : theDB) {
 			if (newUser.getUsername().equals(u.getUsername()))
 				return false;
@@ -36,7 +36,7 @@ public class DatabaseController {
 	}
 	
 	// remove a user from the db
-	public static boolean removeUser(String username) {
+	public boolean removeUser(String username) {
 		for (User u : theDB) {
 			if (username.equals(u.getUsername())) {
 				return theDB.remove(u);
@@ -46,7 +46,7 @@ public class DatabaseController {
 	}
 	
 	// get a user; null if not in DB
-	public static User getUser(String username) {
+	public User getUser(String username) {
 		for (User u : theDB) {
 			if (username.equals(u.getUsername()))
 				return u;
@@ -56,13 +56,13 @@ public class DatabaseController {
 	}
 	
 	// get the list of all the users in the DB
-	public static List<User> getAllUsers() {
+	public List<User> getAllUsers() {
 		return new ArrayList<User>(theDB);
 	}
 	
 	// update a user (including their friends and favorite board game
 	// list) in the database
-	public static boolean updateUser(User theUser) {
+	public boolean updateUser(User theUser) {
 		boolean inDB = false;
 		for (User u : theDB) {
 			if (theUser.getUsername().equals(u.getUsername())) {

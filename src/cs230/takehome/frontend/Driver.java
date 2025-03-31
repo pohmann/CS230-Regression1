@@ -1,10 +1,14 @@
 package cs230.takehome.frontend;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Driver {
-	
+
+	// the static UserInteraction object to use for all user actions
+	private static UserInteraction ui = new UserInteraction();
+
 	/**
 	 * Get the selected menu option based on user entry.
 	 * This reads one line from the provided Scanner.
@@ -73,18 +77,18 @@ public class Driver {
 		
 		switch(choice) {
 		case 1:
-			UserInteraction.viewProfile();
+			ui.viewProfile();
 			break;
 		case 2:
-			if (!UserInteraction.removeFriend(s))
+			if (!ui.removeFriend(s))
 				System.out.println("Failed to remove friend.  (Invalid username?)");
 			break;
 		case 3:
-			if (!UserInteraction.removeGame(s))
+			if (!ui.removeGame(s))
 				System.out.println("Failed to remove game.  (Invalid game name?)");
 			break;
 		case 4:
-			UserInteraction.logout();
+			ui.logout();
 			break;
 		default:
 			System.err.println("Internal error: Unsupported option.");
@@ -97,7 +101,7 @@ public class Driver {
 		System.out.println("Please log in.");
 
 		String username = "";
-		while (username.isBlank()) {
+		while (username.isEmpty()) {
 			System.out.print("Username: ");
 			username = s.nextLine();
 		}
@@ -105,7 +109,7 @@ public class Driver {
 		System.out.print("Password: ");
 		String password = s.nextLine();
 
-		boolean success = UserInteraction.login(username, password);
+		boolean success = ui.login(username, password);
 		if (success)
 			System.out.println("Redirecting to main menu.");
 	}
@@ -115,7 +119,7 @@ public class Driver {
 		Scanner s = new Scanner(System.in);
 		
 		while (true) {
-			if (UserInteraction.getLoggedInUser() == null)
+			if (ui.getLoggedInUser() == null)
 				topMenu(s);
 			else
 				userMenu(s);
