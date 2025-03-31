@@ -73,7 +73,7 @@ public class Driver {
 	private static void userMenu(Scanner s) {
 		printHeader("User Menu");
 		
-		int choice = getMenuOption(s, List.of("View Profile", "Remove Friend", "Remove Favorite Game", "Logout"));
+		int choice = getMenuOption(s, Arrays.asList("View Profile", "Remove Friend", "Remove Favorite Game", "Logout"));
 		
 		switch(choice) {
 		case 1:
